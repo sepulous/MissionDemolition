@@ -11,7 +11,6 @@ public class Goal : MonoBehaviour
         Projectile proj = other.GetComponent<Projectile>();
         if (proj != null)
         {
-            Debug.Log("GOAL MET");
             Goal.goalMet = true;
             Material mat = GetComponent<Renderer>().material;
             Color c = mat.color;

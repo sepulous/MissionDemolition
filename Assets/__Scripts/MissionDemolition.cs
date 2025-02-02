@@ -18,6 +18,7 @@ public class MissionDemolition : MonoBehaviour
     public Text uitShots;
     public Vector3 castlePos;
     public GameObject[] castles;
+    public GameObject restartMenu;
 
     public int level;
     public int levelMax;
@@ -41,13 +42,20 @@ public class MissionDemolition : MonoBehaviour
 
         if (mode == GameMode.playing && Goal.goalMet)
         {
-            mode = GameMode.levelEnd;
+            if (level + 1 == levelMax)
+            {
+                restartMenu.SetActive(true);
+            }
+            else
+            {
+                mode = GameMode.levelEnd;
+                Invoke("NextLevel", 2f);
+            }
             FollowCam.SWITCH_VIEW(FollowCam.eView.both);
-            Invoke("NextLevel", 2f);
         }
     }
 
-    void StartLevel()
+    public void StartLevel()
     {
         if (castle != null)
             Destroy(castle);
@@ -69,11 +77,14 @@ public class MissionDemolition : MonoBehaviour
     void NextLevel()
     {
         level++;
-        if (level == levelMax)
-        {
-            level = 0;
-            shotsTaken = 0;
-        }
+        StartLevel();
+    }
+
+    public void PlayAgain()
+    {
+        level = 0;
+        shotsTaken = 0;
+        restartMenu.SetActive(false);
         StartLevel();
     }
 
